@@ -468,16 +468,29 @@ border:1px solid #ccc;
   <div id="testimonialList"></div>      <hr>      <h3>Add Category</h3>      
   <input id="newCat" placeholder="New category name">      
   <button class="btn" onclick="addCategory()">Add Category</button>      <hr>    <button class="btn" onclick="closeAdmin()" style="background:red;">Close</button>  </div>     
-  <script>          let categories = JSON.parse(localStorage.getItem("categories")) || [
-"shadda",
-"shoes",
-"abayas",
-"yard",
-"bags",
-"caps",
-"vail"
+  
+  
+  <script>     
+const STORE_ID = "bob_textile"; // CHANGE THIS PER WEBSITE
+const CAT_KEY = STORE_ID + "_categories";
+const PROD_KEY = STORE_ID + "_products";
+const TEST_KEY = STORE_ID + "_testimonials";
+
+let categories = JSON.parse(localStorage.getItem(CAT_KEY)) || [
+  "shadda",
+  "shoes",
+  "abayas",
+  "yard",
+  "bags",
+  "caps",
+  "vail"
 ];
-let products=JSON.parse(localStorage.getItem("products"))||[];
+
+let products = JSON.parse(localStorage.getItem(PROD_KEY)) || [];
+let testimonials = JSON.parse(localStorage.getItem(TEST_KEY)) || [];    
+    
+localStorage.setItem(STORE_ID + "_categories", JSON.stringify(categories));    
+
 let uploadedImages=[];
 let adminPanel = document.getElementById("adminPanel");
 let delCat = document.getElementById("delCat");
@@ -528,56 +541,55 @@ bar.appendChild(aboutBtn);
 // LOOP CATEGORIES PROPERLY
 categories.forEach(cat => {
 
-// CATEGORY BUTTON      
-let btn = document.createElement("div");      
-btn.className = "category-btn";      
-btn.innerText = cat.toUpperCase();      
-  
-btn.onclick = function () {      
-  showView(cat, btn);      
-};      
-  
-bar.appendChild(btn);      
-  
-// ADMIN SELECT      
-let opt = document.createElement("option");      
-opt.value = cat;      
-opt.textContent = cat.toUpperCase();      
-sel.appendChild(opt);      
-  
-// DELETE SELECT      
-let opt2 = document.createElement("option");      
-opt2.value = cat;      
-opt2.textContent = cat.toUpperCase();      
-delSel.appendChild(opt2);      
-  
-// CREATE VIEW      
-if (!document.getElementById(cat + "View")) {      
-  let div = document.createElement("div");      
-  div.id = cat + "View";      
-  div.className = "view";      
-  document.body.appendChild(div);      
-}
+  // button creation
+  let btn = document.createElement("div");
+  btn.className = "category-btn";
+  btn.innerText = cat.toUpperCase();
+
+  btn.onclick = function () {
+    showView(cat, btn);
+  };
+
+  bar.appendChild(btn);
+
+  // admin select
+  let opt = document.createElement("option");
+  opt.value = cat;
+  opt.textContent = cat.toUpperCase();
+  sel.appendChild(opt);
+
+  // delete select
+  let opt2 = document.createElement("option");
+  opt2.value = cat;
+  opt2.textContent = cat.toUpperCase();
+  delSel.appendChild(opt2);
+
+  // 👇 PASTE HERE
+  if (!document.getElementById(cat + "View")) {
+    let div = document.createElement("div");
+    div.id = cat + "View";
+    div.className = "view";
+    document.body.appendChild(div);
+  }
 
 });
-}
 
 function fillCats(){
-let html = categories
-.map(c => `<option value="${c}">${c.toUpperCase()}</option>`)
-.join("");
+  let html = categories
+    .map(c => `<option value="${c}">${c.toUpperCase()}</option>`)
+    .join("");
 
-delCat.innerHTML = html;
-
-document.getElementById("catDelete").innerHTML = html;
+  document.getElementById("aCategory").innerHTML = html;
+  document.getElementById("catDelete").innerHTML = html;
+  delCat.innerHTML = html;
 }
 
 function deleteCategory(){
 let cat = document.getElementById("catDelete").value;
 
 categories = categories.filter(c=>c!==cat);
-localStorage.setItem("categories", JSON.stringify(categories));
-
+localStorage.setItem(CAT_KEY, JSON.stringify(categories));
+  
 loadCategories();
 }
 
@@ -617,6 +629,7 @@ view = document.createElement("div");
 view.id = type + "View";
 view.className = "view";
 document.body.appendChild(view);
+ 
 }
 
 let list = products.filter(p => p.category === type);
@@ -740,8 +753,6 @@ function uploadImage(){
       console.log("Uploaded:", result.info.secure_url);
     }
   });
-}
-/* SAVE */
 
 /* DELETE */
 function loadDelete(){
@@ -765,25 +776,33 @@ delList.innerHTML = html;
 function delProduct(i){
   let cat = delCat.value;
 
+  // get ONLY products in this category
   let filtered = products.filter(p => p.category === cat);
+
+  // correct item to delete
   let productToDelete = filtered[i];
 
-  products = products.filter(p => p !== productToDelete);
+  // remove safely using unique match (NOT index)
+  products = products.filter(p =>
+    !(p.category === cat &&
+      p.name === productToDelete.name &&
+      p.price === productToDelete.price &&
+      p.date === productToDelete.date)
+  );
 
-  localStorage.setItem("products", JSON.stringify(products));
+  localStorage.setItem(PROD_KEY, JSON.stringify(products));
 
   loadDelete();
   showView(cat, document.querySelector(".category-btn.active"));
 }
-
-function deleteTestimonial(i){
-let list = JSON.parse(localStorage.getItem("testimonials")) || [];
+  
 
 // remove item
 list.splice(i, 1);
 
 // save back to storage
 localStorage.setItem("testimonials", JSON.stringify(list));
+
 
 // update global variable
 testimonials = list;
@@ -792,26 +811,12 @@ testimonials = list;
 loadTestimonials();
 loadTestimonialAdmin();
 }
-function del(i){
-let cat = delCat.value;
 
-// find products in selected category
-let filtered = products.filter(p => p.category === cat);
-
-// get the real product to delete
-let productToDelete = filtered[i];
-
-// remove from main array
-products = products.filter(p => p !== productToDelete);
-
-// save to storage
-localStorage.setItem("products", JSON.stringify(products));
-
-// refresh UI
 loadDelete();
 }
 
-let testimonials = JSON.parse(localStorage.getItem("testimonials")) || [];
+localStorage.setItem(STORE_ID + "_testimonials", JSON.stringify(testimonials));
+
 let tIndex = 0;
 let tAuto;
 
@@ -839,7 +844,7 @@ dots.appendChild(dot);
 });
 
 startAuto();
-
+u
 scrollTestimonial(0); // ✅ IMPORTANT FIX
 }
 
