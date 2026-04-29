@@ -186,7 +186,8 @@ border-radius:12px;
 .carousel img{
 min-width:100%;
 height:380px;
-object-fit:cover;   /* fills container properly /
+object-fit:cover;  
+/* fills container properly */
 scroll-snap-align:center;
 border-radius:12px; / smooth rounded look */
 }
@@ -752,7 +753,7 @@ function uploadImage(){
       console.log("Uploaded:", result.info.secure_url);
     }
   });
-
+} 
 /* DELETE */
 function loadDelete(){
 let cat = delCat.value;
@@ -843,7 +844,6 @@ dots.appendChild(dot);
 });
 
 startAuto();
-u
 scrollTestimonial(0); // ✅ IMPORTANT FIX
 }
 
@@ -962,6 +962,17 @@ if(result && result.event === "success"){
 
 });
 }
+
+function deleteTestimonial(i){
+  let list = JSON.parse(localStorage.getItem("testimonials")) || [];
+  list.splice(i,1);
+  localStorage.setItem("testimonials", JSON.stringify(list));
+  testimonials = list;
+
+  loadTestimonials();
+  loadTestimonialAdmin();
+}
+    
 
 function addProduct(){
   if(uploadedImages.length === 0){
