@@ -189,7 +189,7 @@ height:380px;
 object-fit:cover;  
 /* fills container properly */
 scroll-snap-align:center;
-border-radius:12px; / smooth rounded look */
+border-radius:12px; /* smooth rounded look */
 }
 
 .social-btn img{
@@ -502,6 +502,8 @@ let aCategory = document.getElementById("aCategory");
 let aboutView = document.getElementById("aboutView");
 
 /* add category */
+
+    
 function addCategory(){
 let newCat = document.getElementById("newCat").value.trim().toLowerCase();
 
@@ -513,7 +515,7 @@ return;
 }
 
 categories.push(newCat);
-localStorage.setItem("categories", JSON.stringify(categories));
+localStorage.setItem(CAT_KEY, JSON.stringify(categories));
 
 document.getElementById("newCat").value = "";
 
@@ -573,6 +575,7 @@ if (!document.getElementById(cat + "View")) {
 }
 
 });
+} 
 
 function fillCats(){
   let html = categories
@@ -589,8 +592,7 @@ let cat = document.getElementById("catDelete").value;
 
 categories = categories.filter(c=>c!==cat);
 localStorage.setItem(CAT_KEY, JSON.stringify(categories));
-  
-loadCategories();
+
 }
 
 /* VIEW */
@@ -797,23 +799,7 @@ function delProduct(i){
 }
   
 
-// remove item
-list.splice(i, 1);
-
-// save back to storage
-localStorage.setItem("testimonials", JSON.stringify(list));
-
-
-// update global variable
-testimonials = list;
-
-// refresh BOTH UI sections
-loadTestimonials();
-loadTestimonialAdmin();
-}
-
-loadDelete();
-}
+// remove item //
 
 localStorage.setItem(STORE_ID + "_testimonials", JSON.stringify(testimonials));
 
@@ -889,7 +875,7 @@ return;
 let buttons = document.querySelectorAll(".category-btn");
 
 buttons.forEach(btn=>{
-if(btn.innerText.toLowerCase() === saved){
+if(btn.innerText.toLowerCase() === saved.toLowerCase()){
 showView(saved, btn);
 }
 });
