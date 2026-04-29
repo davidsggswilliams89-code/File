@@ -898,7 +898,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 });
 
 function loadTestimonialAdmin(){
-let list = JSON.parse(localStorage.getItem("testimonials")) || [];
+let list = JSON.parse(localStorage.getItem("TEST_KEY")) || [];
 let box = document.getElementById("testimonialList");
 
 let html = "";
@@ -948,7 +948,7 @@ localStorage.setItem(TEST_KEY, JSON.stringify(list));
 }
 
 function deleteTestimonial(i){
-  let list = JSON.parse(localStorage.getItem("testimonials")) || [];
+  let list = JSON.parse(localStorage.getItem("TEST_KEY")) || [];
   list.splice(i,1);
   localStorage.setItem("testimonials", JSON.stringify(list));
   testimonials = list;
