@@ -564,13 +564,12 @@ categories.forEach(cat => {
   opt2.textContent = cat.toUpperCase();
   delSel.appendChild(opt2);
 
-  // 👇 PASTE HERE
-  if (!document.getElementById(cat + "View")) {
-    let div = document.createElement("div");
-    div.id = cat + "View";
-    div.className = "view";
-    document.body.appendChild(div);
-  }
+if (!document.getElementById(cat + "View")) {
+  let div = document.createElement("div");
+  div.id = cat + "View";
+  div.className = "view";
+  document.body.appendChild(div);
+}
 
 });
 
