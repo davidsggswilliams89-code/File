@@ -930,13 +930,11 @@ if(error){
   
 if(result && result.event === "success"){      
   // get current list      
-  let list = JSON.parse(localStorage.getItem("testimonials")) || [];      
-  
-  // add new image      
-  list.push(result.info.secure_url);      
-  
-  // save immediately      
-  localStorage.setItem("testimonials", JSON.stringify(list));      
+  let list = JSON.parse(localStorage.getItem(TEST_KEY)) || [];
+
+list.push(result.info.secure_url);
+
+localStorage.setItem(TEST_KEY, JSON.stringify(list));      
   
   // update global      
   testimonials = list;      
