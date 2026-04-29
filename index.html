@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>     
 <head>       
-  <title>BOB TEXTILE</title>        
+  <title>DANMASANI TEXTILE</title>        
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
   <script src="https://widget.cloudinary.com/v2.0/global/all.js"></script> 
   <style>        
@@ -373,7 +373,7 @@ border:1px solid #ccc;
 </head>  <body>  <!-- HEADER -->  <div class="top-marquee">        
   <img src="logo.jpeg" class="logo">    <div class="marquee-wrapper">        
     <div class="marquee-text">        
-      ✨ BOB TEXTILE ✨ Premium Fashion Store ✨ Quality Fabrics ✨        
+      ✨ DANMASANI TEXTILE ✨ Premium Fashion Store ✨ Quality Fabrics ✨        
     </div>        
   </div>    <div class="admin-icon" onclick="openAdmin()">🔒</div>        
 </div>        <!-- CATEGORY -->        <div class="category-bar" id="categoryBar"></div>        <!-- VIEWS -->       <div id="aboutView" class="view active-view">        
@@ -472,7 +472,7 @@ border:1px solid #ccc;
   
   
   <script>     
-const STORE_ID = "bob_textile"; // CHANGE THIS PER WEBSITE
+const STORE_ID = "danmasani"; // CHANGE THIS PER WEBSITE
 const CAT_KEY = STORE_ID + "_categories";
 const PROD_KEY = STORE_ID + "_products";
 const TEST_KEY = STORE_ID + "_testimonials";
@@ -974,7 +974,7 @@ function addProduct(){
     date: Date.now()
   });
 
-  localStorage.setItem("products", JSON.stringify(products));
+  localStorage.setItem(PROD_KEY, JSON.stringify(products));
 
   uploadedImages = [];
   aName.value = "";
