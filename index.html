@@ -526,21 +526,30 @@ window.fb = { collection, addDoc, getDocs, deleteDoc, doc };
     
     
  <script>   
+//Done
 let categories = [];
-
-let products = []; // ✅ ONLY THIS (Firebase will fill it)
-
+let products = [];
 let uploadedImages = [];
-let adminPanel = document.getElementById("adminPanel");
-let delCat = document.getElementById("delCat");
-let delList = document.getElementById("delList");
-let aName = document.getElementById("aName");
-let aPrice = document.getElementById("aPrice");
-let aCategory = document.getElementById("aCategory");
-let aboutView = document.getElementById("aboutView");
 
-/* add category */
+let adminPanel, delCat, delList, aName, aPrice, aCategory, aboutView;
+
+document.addEventListener("DOMContentLoaded", () => {
+  adminPanel = document.getElementById("adminPanel");
+  delCat = document.getElementById("delCat");
+  delList = document.getElementById("delList");
+  aName = document.getElementById("aName");
+  aPrice = document.getElementById("aPrice");
+  aCategory = document.getElementById("aCategory");
+  aboutView = document.getElementById("aboutView");
+
+  loadCategoriesFromFirebase();
+  loadProductsFromFirebase();
+  loadTestimonialsFromFirebase();
+});
+
    
+/* add category */
+  //Done 
 async function addCategory(){
   let newCat = document.getElementById("newCat").value.trim().toLowerCase();
 
@@ -557,6 +566,7 @@ async function addCategory(){
 
    
 // LOAD CATEGORIES 
+   //Dome
 async function loadCategoriesFromFirebase(){
   categories = [];
 
@@ -576,7 +586,7 @@ async function loadCategoriesFromFirebase(){
   fillCats();
 }
 
-   
+ //Done  
 function fillCats(){
 let html = categories
 .map(c => `<option value="${c}">${c.toUpperCase()}</option>`)
@@ -586,7 +596,8 @@ delCat.innerHTML = html;
 
 document.getElementById("catDelete").innerHTML = html;
 }
-
+   
+//Done   
 async function deleteCategory(){
   let cat = document.getElementById("catDelete").value;
 
@@ -600,11 +611,14 @@ async function deleteCategory(){
 
   loadCategoriesFromFirebase();
 }
+   
 /* VIEW */
-document.querySelectorAll(".view").forEach(v=>{
-v.classList.remove("active-view");
+//Done
+document.querySelectorAll(".view")?.forEach(v=>{
+  v.classList.remove("active-view");
 });
 
+   
 function showView(type, el){
 // remove active class from all buttons
 document.querySelectorAll(".category-btn").forEach(b=>{
