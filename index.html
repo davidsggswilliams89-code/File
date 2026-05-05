@@ -892,18 +892,19 @@ return;
 let buttons = document.querySelectorAll(".category-btn");
 
 buttons.forEach(btn=>{
-if(btn.innerText.toLowerCase() === saved){
+if(btn.innerText.trim().toLowerCase() === saved){
 showView(saved, btn);
 }
 });
 }
-
+   
 function initApp(){
-loadTestimonials();
-restoreActiveView();
-fillCats();
+  loadCategoriesFromFirebase();
+  loadProductsFromFirebase();
+  loadTestimonialsFromFirebase();
 }
 
+   
 async function loadProductsFromFirebase(){
   products = [];
 
@@ -920,35 +921,34 @@ async function loadProductsFromFirebase(){
 }
    
 document.addEventListener("DOMContentLoaded", ()=>{    
-  loadCategories();    
-  fillCats();    
-  loadTestimonials();    
-  loadProductsFromFirebase();
+  loadCategoriesFromFirebase();   // ✅ new
+  loadProductsFromFirebase();     // ✅ new
+  loadTestimonialsFromFirebase(); // ✅ new
+
   setTimeout(() => {
-    restoreActiveView();   // delay ensures categories exist
+    restoreActiveView();
   }, 100);
 });
 
 function loadTestimonialAdmin(){
-let list = JSON.parse(localStorage.getItem("testimonials")) || [];
 let box = document.getElementById("testimonialList");
 
 let html = "";
 
-list.forEach((img,i)=>{
+testimonials.forEach((img,i)=>{
 html += `
 <div class="testimonial-item">
   <img src="${img}">
   <div style="flex:1">Testimonial ${i+1}</div>
   <button class="delete-btn" onclick="deleteTestimonial(${i})">Delete</button>
 </div>`;
-             
-    });
+});
 
 box.innerHTML = html;
 }
     
 function uploadTestimonials(){
+alert("Uploading testimonial...");
 cloudinary.openUploadWidget({
 cloudName:"db92r6j9z",
 uploadPreset:"ummuhalti",
