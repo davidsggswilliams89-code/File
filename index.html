@@ -526,15 +526,7 @@ window.fb = { collection, addDoc, getDocs, deleteDoc, doc };
     
     
  <script>   
-let categories = JSON.parse(localStorage.getItem("categories")) || [
-"shadda",
-"shoes",
-"abayas",
-"yard",
-"bags",
-"caps",
-"vail"
-];
+let categories = [];
 
 let products = []; // ✅ ONLY THIS (Firebase will fill it)
 
@@ -548,80 +540,43 @@ let aCategory = document.getElementById("aCategory");
 let aboutView = document.getElementById("aboutView");
 
 /* add category */
-function addCategory(){
-let newCat = document.getElementById("newCat").value.trim().toLowerCase();
+   
+async function addCategory(){
+  let newCat = document.getElementById("newCat").value.trim().toLowerCase();
 
-if(!newCat) return;
+  if(!newCat) return;
 
-if(categories.includes(newCat)){
-alert("Category already exists");
-return;
+  await fb.addDoc(fb.collection(db, "categories"), {
+    name: newCat
+  });
+
+  document.getElementById("newCat").value = "";
+
+  loadCategoriesFromFirebase();
 }
 
-categories.push(newCat);
-localStorage.setItem("categories", JSON.stringify(categories));
+   
+// LOAD CATEGORIES 
+async function loadCategoriesFromFirebase(){
+  categories = [];
 
-document.getElementById("newCat").value = "";
+  const snap = await fb.getDocs(fb.collection(db, "categories"));
 
-loadCategories();
-fillCats();
+  snap.forEach(docItem=>{
+    categories.push({
+      id: docItem.id,
+      name: docItem.data().name
+    });
+  });
+
+  // convert to simple array for your system
+  categories = categories.map(c => c.name);
+
+  loadCategories();
+  fillCats();
 }
 
-function loadCategories(){
-let bar = document.getElementById("categoryBar");
-let sel = document.getElementById("aCategory");
-let delSel = document.getElementById("catDelete");
-
-bar.innerHTML = "";
-sel.innerHTML = "";
-delSel.innerHTML = "";
-
-// ABOUT BUTTON
-let aboutBtn = document.createElement("div");
-aboutBtn.className = "category-btn";
-aboutBtn.innerText = "ABOUT";
-aboutBtn.onclick = function () {
-showView("about", aboutBtn);
-};
-bar.appendChild(aboutBtn);
-
-// LOOP CATEGORIES PROPERLY
-categories.forEach(cat => {
-
-// CATEGORY BUTTON      
-let btn = document.createElement("div");      
-btn.className = "category-btn";      
-btn.innerText = cat.toUpperCase();      
-  
-btn.onclick = function () {      
-  showView(cat, btn);      
-};      
-  
-bar.appendChild(btn);      
-  
-// ADMIN SELECT      
-let opt = document.createElement("option");      
-opt.value = cat;      
-opt.textContent = cat.toUpperCase();      
-sel.appendChild(opt);      
-  
-// DELETE SELECT      
-let opt2 = document.createElement("option");      
-opt2.value = cat;      
-opt2.textContent = cat.toUpperCase();      
-delSel.appendChild(opt2);      
-  
-// CREATE VIEW      
-if (!document.getElementById(cat + "View")) {      
-  let div = document.createElement("div");      
-  div.id = cat + "View";      
-  div.className = "view";      
-  document.body.appendChild(div);      
-}
-
-});
-}
-
+   
 function fillCats(){
 let html = categories
 .map(c => `<option value="${c}">${c.toUpperCase()}</option>`)
@@ -632,15 +587,19 @@ delCat.innerHTML = html;
 document.getElementById("catDelete").innerHTML = html;
 }
 
-function deleteCategory(){
-let cat = document.getElementById("catDelete").value;
+async function deleteCategory(){
+  let cat = document.getElementById("catDelete").value;
 
-categories = categories.filter(c=>c!==cat);
-localStorage.setItem("categories", JSON.stringify(categories));
+  const snap = await fb.getDocs(fb.collection(db, "categories"));
 
-loadCategories();
+  snap.forEach(async (d)=>{
+    if(d.data().name === cat){
+      await fb.deleteDoc(fb.doc(db, "categories", d.id));
+    }
+  });
+
+  loadCategoriesFromFirebase();
 }
-
 /* VIEW */
 document.querySelectorAll(".view").forEach(v=>{
 v.classList.remove("active-view");
