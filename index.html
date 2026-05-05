@@ -526,7 +526,7 @@ window.fb = { collection, addDoc, getDocs, deleteDoc, doc };
     
     
  <script>   
- let categories = JSON.parse(localStorage.getItem("categories")) || [
+let categories = JSON.parse(localStorage.getItem("categories")) || [
 "shadda",
 "shoes",
 "abayas",
@@ -535,8 +535,10 @@ window.fb = { collection, addDoc, getDocs, deleteDoc, doc };
 "caps",
 "vail"
 ];
-let products=JSON.parse(localStorage.getItem("products"))||[];
-let uploadedImages=[];
+
+let products = []; // ✅ ONLY THIS (Firebase will fill it)
+
+let uploadedImages = [];
 let adminPanel = document.getElementById("adminPanel");
 let delCat = document.getElementById("delCat");
 let delList = document.getElementById("delList");
