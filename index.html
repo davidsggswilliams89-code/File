@@ -792,22 +792,22 @@ async function delProduct(i){
   loadProductsFromFirebase();
 }
    
-function deleteTestimonial(i){
-let list = JSON.parse(localStorage.getItem("testimonials")) || [];
+async function deleteTestimonial(i){
+  let item = testimonials[i];
 
-// remove item
-list.splice(i, 1);
+  const snap = await fb.getDocs(fb.collection(db, "testimonials"));
 
-// save back to storage
-localStorage.setItem("testimonials", JSON.stringify(list));
+  snap.forEach(async (d)=>{
+    if(d.data().url === item){
+      await fb.deleteDoc(fb.doc(db, "testimonials", d.id));
+    }
+  });
 
-// update global variable
-testimonials = list;
-
-// refresh BOTH UI sections
-loadTestimonials();
-loadTestimonialAdmin();
+  loadTestimonialsFromFirebase();
+  loadTestimonialAdmin();
 }
+
+   
 function del(i){
 let cat = delCat.value;
 
@@ -827,36 +827,27 @@ localStorage.setItem("products", JSON.stringify(products));
 loadDelete();
 }
 
-let testimonials = JSON.parse(localStorage.getItem("testimonials")) || [];
+let testimonials = [];
 let tIndex = 0;
 let tAuto;
 
 /* LOAD */
-function loadTestimonials() {
-const box = document.getElementById("testimonialCarousel");
-const dots = document.getElementById("testimonialDots");
+async function loadTestimonialsFromFirebase(){
+  testimonials = [];
 
-box.innerHTML = "";
-dots.innerHTML = "";
+  const snap = await fb.getDocs(fb.collection(db, "testimonials"));
 
-if (testimonials.length === 0) {
-box.innerHTML = `<p style="text-align:center;color:#777;">No testimonials yet</p>`;
-return;
-}
+  snap.forEach(docItem=>{
+    testimonials.push({
+      id: docItem.id,
+      url: docItem.data().url
+    });
+  });
 
-testimonials.forEach((img, i) => {
-box.innerHTML += `<img src="${img}">`;
+  // convert to simple array
+  testimonials = testimonials.map(t => t.url);
 
-let dot = document.createElement("span");      
-dot.className = "dot" + (i === 0 ? " active" : "");      
-dot.onclick = () => scrollTestimonial(i);      
-dots.appendChild(dot);
-
-});
-
-startAuto();
-
-scrollTestimonial(0); // ✅ IMPORTANT FIX
+  loadTestimonials();
 }
 
 /* SCROLL */
@@ -962,34 +953,22 @@ cloudinary.openUploadWidget({
 cloudName:"db92r6j9z",
 uploadPreset:"ummuhalti",
 multiple:true
-}, (error, result) => {
+}, async (error, result) => {
 
-if(error){      
-  console.log("Upload error:", error);      
-  return;      
-}      
-  
-if(result && result.event === "success"){      
-  // get current list      
-  let list = JSON.parse(localStorage.getItem("testimonials")) || [];      
-  
-  // add new image      
-  list.push(result.info.secure_url);      
-  
-  // save immediately      
-  localStorage.setItem("testimonials", JSON.stringify(list));      
-  
-  // update global      
-  testimonials = list;      
-  
-  // refresh UI instantly      
-  loadTestimonials();      
-  loadTestimonialAdmin();      
+if(error) return;
+
+if(result && result.event === "success"){
+
+  await fb.addDoc(fb.collection(db, "testimonials"), {
+    url: result.info.secure_url
+  });
+
+  loadTestimonialsFromFirebase();
+  loadTestimonialAdmin();
 }
 
 });
 }
-
 async function addProduct(){
   if(uploadedImages.length === 0){
     alert("Upload images first");
