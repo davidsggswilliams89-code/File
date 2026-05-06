@@ -620,8 +620,6 @@ document.querySelectorAll(".view")?.forEach(v=>{
 
  //DONE
 function showView(type, el){
-
-// remove active class
 document.querySelectorAll(".category-btn").forEach(b=>{
   b.classList.remove("active");
 });
@@ -691,8 +689,6 @@ view.classList.add("active-view");
 // setup carousels
 list.forEach((p,i)=>setupCarousel(type,i));
 }
-
-
 
 // DONE
 /* BUY NOW */
@@ -767,24 +763,31 @@ c.onscroll = () => {
   if(dots[index]) dots[index].classList.add("active");
 };
 }
+
+/DONE
 /* ADMIN */
 function openAdmin(){
-  if(prompt("Password")==="1234"){
-    adminPanel.style.display="flex"; // show as flex only when opened
-    fillCats();
-    loadTestimonialAdmin();
+
+  const pass = prompt("Enter admin password:");
+
+  if(!pass) return;
+
+  if(pass === "1234"){   // you can replace later with Firebase auth
+    
+    if(adminPanel) adminPanel.style.display = "flex";
+
+    if(typeof fillCats === "function") fillCats();
+    if(typeof loadTestimonialAdmin === "function") loadTestimonialAdmin();
+
+  } else {
+    alert("Wrong password");
   }
 }
+ 
 
-function closeAdmin(){
-adminPanel.style.display="none";
-}
-
-
-   
+//Done   
 /* UPLOAD */
 function uploadImage(){
-
   if (typeof cloudinary === "undefined") {
     alert("Upload tool not loaded. Refresh page.");
     return;
@@ -822,29 +825,35 @@ function uploadImage(){
 
   });
 }
-
    
 /* SAVE */
 
+
+//DONE   
 /* DELETE */
 function loadDelete(){
 let cat = delCat.value;
 let html = "";
 
-products.forEach((p,i)=>{
-if(p.category === cat){
+// filter first
+let filtered = products.filter(p => p.category === cat);
+
+filtered.forEach((p,i)=>{
+
+let img = (p.images && p.images.length > 0) ? p.images[0] : "";
+
 html += `
 <div class="admin-item">
-  <img src="${p.images[0]}" width="40">
-  <div style="flex:1">${p.name}</div>
+  <img src="${img}" width="40">
+  <div style="flex:1">${p.name || "No name"}</div>
   <button class="delete-btn" onclick="delProduct(${i})">Delete</button>
 </div>`;
-}
 });
 
-delList.innerHTML = html;
+if(delList) delList.innerHTML = html;
 }
 
+//DONE
 async function delProduct(i){
   let cat = delCat.value;
 
@@ -855,7 +864,9 @@ async function delProduct(i){
 
   loadProductsFromFirebase();
 }
-   
+
+
+//DONE  
 async function deleteTestimonial(i){
   let item = testimonials[i];
 
@@ -871,30 +882,27 @@ async function deleteTestimonial(i){
   loadTestimonialAdmin();
 }
 
-   
+ //DONE  
 function del(i){
 let cat = delCat.value;
 
-// find products in selected category
 let filtered = products.filter(p => p.category === cat);
-
-// get the real product to delete
 let productToDelete = filtered[i];
 
-// remove from main array
+if(!productToDelete) return; // ✅ safety
+
 products = products.filter(p => p !== productToDelete);
 
-// save to storage
 localStorage.setItem("products", JSON.stringify(products));
 
-// refresh UI
 loadDelete();
-}
+}  
 
 let testimonials = [];
 let tIndex = 0;
-let tAuto;
+let tAuto = null;
 
+//DONE   
 /* LOAD */
 async function loadTestimonialsFromFirebase(){
   testimonials = [];
@@ -915,52 +923,88 @@ async function loadTestimonialsFromFirebase(){
 }
 
 /* SCROLL */
+//DONE
 function scrollTestimonial(i) {
 const box = document.getElementById("testimonialCarousel");
 const dots = document.querySelectorAll("#testimonialDots .dot");
 
+if(!box) return; // ✅ safety
+
+// clamp index within range
+if(i < 0) i = 0;
+if(i >= dots.length) i = dots.length - 1;
+
+// prevent divide/scroll issues
+if(box.clientWidth === 0) return;
+
 box.scrollTo({
-left: box.clientWidth * i,
-behavior: "smooth"
+  left: box.clientWidth * i,
+  behavior: "smooth"
 });
 
+// update dots
 dots.forEach(d => d.classList.remove("active"));
 if (dots[i]) dots[i].classList.add("active");
 
+// update index
 tIndex = i;
 }
-
+   
+//DONE
 /* AUTO SLIDE */
 function startAuto() {
 clearInterval(tAuto);
 
-if (testimonials.length <= 1) return;
+// safety check
+if (!Array.isArray(testimonials) || testimonials.length <= 1) return;
 
 tAuto = setInterval(() => {
-tIndex = (tIndex + 1) % testimonials.length;
-scrollTestimonial(tIndex);
+
+  // ensure index stays valid
+  tIndex = (tIndex + 1) % testimonials.length;
+
+  // safe call
+  if (typeof scrollTestimonial === "function") {
+    scrollTestimonial(tIndex);
+  }
+
 }, 4000);
 }
-
+   
+//DONE. 
 function restoreActiveView(){
-let saved = localStorage.getItem("activeView") || "about";
+let saved = (localStorage.getItem("activeView") || "about").toLowerCase();
 
+// ABOUT VIEW
 if(saved === "about"){
-document.querySelectorAll(".view").forEach(v=>{
-v.classList.remove("active-view");
-});
-aboutView.classList.add("active-view");
-return;
+  document.querySelectorAll(".view").forEach(v=>{
+    v.classList.remove("active-view");
+  });
+
+  if(aboutView) aboutView.classList.add("active-view");
+  return;
 }
 
+// FIND BUTTON MATCH
 let buttons = document.querySelectorAll(".category-btn");
+let found = false;
 
 buttons.forEach(btn=>{
-if(btn.innerText.trim().toLowerCase() === saved){
-showView(saved, btn);
-}
+  let name = btn.innerText.trim().toLowerCase();
+
+  if(name === saved){
+    showView(saved, btn);
+    found = true;
+  }
 });
+
+// fallback (if no match found)
+if(!found && aboutView){
+  aboutView.classList.add("active-view");
 }
+}
+
+//Done
    
 function initApp(){
   loadCategoriesFromFirebase();
@@ -968,7 +1012,7 @@ function initApp(){
   loadTestimonialsFromFirebase();
 }
 
-   
+ //DONE  
 async function loadProductsFromFirebase(){
   products = [];
 
