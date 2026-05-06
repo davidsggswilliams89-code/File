@@ -620,76 +620,64 @@ document.querySelectorAll(".view")?.forEach(v=>{
 
  //DONE
 function showView(type, el){
-document.querySelectorAll(".category-btn").forEach(b=>{
-  b.classList.remove("active");
-});
 
-// safe button activation
-if(el) el.classList.add("active");
+  document.querySelectorAll(".category-btn").forEach(b=>{
+    b.classList.remove("active");
+  });
 
-// optional (UI only)
-sessionStorage.setItem("activeView", type);
+  if(el) el.classList.add("active");
 
-// hide all views
-document.querySelectorAll(".view").forEach(v=>{
-  v.classList.remove("active-view");
-});
+  localStorage.setItem("activeView", type);
 
-// ABOUT VIEW
-if(type === "about"){
-  if(aboutView) aboutView.classList.add("active-view");
-  return;
+  document.querySelectorAll(".view").forEach(v=>{
+    v.classList.remove("active-view");
+  });
+
+  if(type === "about"){
+    aboutView.classList.add("active-view");
+    return;
+  }
+
+  let view = document.getElementById(type + "View");
+
+  if(!view){
+    view = document.createElement("div");
+    view.id = type + "View";
+    view.className = "view";
+    document.body.appendChild(view);
+  }
+
+  let list = products.filter(p => p.category === type);
+
+  let html = "";
+
+  list.forEach((p,i)=>{
+    let images = (p.images || []).map(img => `<img src="${img}">`).join("");
+
+    html += `
+      <div class="card">
+        <div class="img-wrap">
+          <div class="carousel car${type}${i}">
+            ${images}
+          </div>
+        </div>
+
+        <div class="dots dots${type}${i}"></div>
+
+        <div class="price">₦ ${p.price}</div>
+
+        <button class="buy-btn" onclick="buyNow(${i},'${type}')">
+          BUY NOW
+        </button>
+      </div>
+    `;
+  });
+
+  view.innerHTML = html;
+  view.classList.add("active-view");
+
+  list.forEach((p,i)=>setupCarousel(type,i));
 }
-
-// GET OR CREATE VIEW
-let view = document.getElementById(type + "View");
-
-if(!view){
-  view = document.createElement("div");
-  view.id = type + "View";
-  view.className = "view";
-  document.body.appendChild(view);
-}
-
-// FILTER PRODUCTS
-let list = products.filter(p => p.category === type);
-let html = "";
-
-// BUILD HTML
-list.forEach((p,i)=>{
-
-let isNew = (Date.now() - p.date) < 86400000;
-
-// safe images
-let images = (p.images || []).map(img => `<img src="${img}">`).join('');
-
-html += `
-  <div class="card">      
-    <div class="img-wrap">      
-      ${isNew ? '<div class="new-badge">NEW</div>' : ''}      
-      <div class="carousel car${type}${i}">      
-        ${images}      
-      </div>      
-    </div>      
-
-    <div class="dots dots${type}${i}"></div>      
-
-    <div class="price">₦ ${p.price}</div>      
-
-    <button class="buy-btn" onclick="buyNow(${i},'${type}')">      
-      <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png">      
-      BUY NOW      
-    </button>
-  </div>`;
-});
-
-view.innerHTML = html;
-view.classList.add("active-view");
-
-// setup carousels
-list.forEach((p,i)=>setupCarousel(type,i));
-}
-
 // DONE
 /* BUY NOW */
 function buyNow(i, type){
@@ -832,6 +820,8 @@ function uploadImage(){
 function loadCategories(){
   let bar = document.getElementById("categoryBar");
 
+  if(!bar) return;
+
   let html = "";
 
   categories.forEach(c => {
@@ -843,8 +833,15 @@ function loadCategories(){
   });
 
   bar.innerHTML = html;
+
+  // auto activate first category if nothing is selected
+  if(categories.length > 0){
+    const firstBtn = bar.querySelector(".category-btn");
+    if(firstBtn) firstBtn.classList.add("active");
+  }
 }
 
+   
 //DONE   
 /* DELETE */
 function loadDelete(){
@@ -989,44 +986,41 @@ tAuto = setInterval(() => {
    
 //DONE. 
 function restoreActiveView(){
-let saved = (localStorage.getItem("activeView") || "about").toLowerCase();
+  let saved = localStorage.getItem("activeView") || "about";
 
-// ABOUT VIEW
-if(saved === "about"){
-  document.querySelectorAll(".view").forEach(v=>{
-    v.classList.remove("active-view");
+  if(saved === "about"){
+    aboutView.classList.add("active-view");
+    return;
+  }
+
+  let buttons = document.querySelectorAll(".category-btn");
+
+  let found = false;
+
+  buttons.forEach(btn=>{
+    if(btn.innerText.trim().toLowerCase() === saved){
+      showView(saved, btn);
+      found = true;
+    }
   });
 
-  if(aboutView) aboutView.classList.add("active-view");
-  return;
-}
-
-// FIND BUTTON MATCH
-let buttons = document.querySelectorAll(".category-btn");
-let found = false;
-
-buttons.forEach(btn=>{
-  let name = btn.innerText.trim().toLowerCase();
-
-  if(name === saved){
-    showView(saved, btn);
-    found = true;
+  if(!found){
+    aboutView.classList.add("active-view");
   }
-});
-
-// fallback (if no match found)
-if(!found && aboutView){
-  aboutView.classList.add("active-view");
-}
 }
 
+   
 //Done
    
 function initApp(){
-  loadCategoriesFromFirebase();
-  loadProductsFromFirebase();
-  loadTestimonialsFromFirebase();
-}
+loadCategoriesFromFirebase();
+loadProductsFromFirebase();
+loadTestimonialsFromFirebase();
+
+setTimeout(()=>{
+  loadCategories();   // 🔥 MUST RUN FIRST
+  restoreActiveView();
+}, 200);
 
  //DONE  
 async function loadProductsFromFirebase(){
