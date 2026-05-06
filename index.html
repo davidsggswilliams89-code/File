@@ -526,7 +526,7 @@ window.fb = { collection, addDoc, getDocs, deleteDoc, doc };
     
     
  <script>   
-//Done
+// Done
 let categories = [];
 let products = [];
 let uploadedImages = [];
@@ -549,7 +549,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
    
 /* add category */
-  //Done 
+  // Done 
 async function addCategory(){
   let newCat = document.getElementById("newCat").value.trim().toLowerCase();
 
@@ -566,7 +566,7 @@ async function addCategory(){
 
    
 // LOAD CATEGORIES 
-   //Dome
+   // Dome
 async function loadCategoriesFromFirebase(){
   categories = [];
 
@@ -597,7 +597,7 @@ delCat.innerHTML = html;
 document.getElementById("catDelete").innerHTML = html;
 }
    
-//Done   
+// Done   
 async function deleteCategory(){
   let cat = document.getElementById("catDelete").value;
 
@@ -618,7 +618,7 @@ document.querySelectorAll(".view")?.forEach(v=>{
   v.classList.remove("active-view");
 });
 
- //DONE
+ // DONE
 function showView(type, el){
 
   document.querySelectorAll(".category-btn").forEach(b=>{
@@ -720,7 +720,7 @@ Is this available? I want to buy.`;
   );
 }
    
-//DONE
+// DONE
 /* CAROUSEL */
 function setupCarousel(type,i){
 let c = document.querySelector(".car"+type+i);
@@ -752,7 +752,7 @@ c.onscroll = () => {
 };
 }
 
-/DONE
+// DONE
 /* ADMIN */
 function openAdmin(){
 
@@ -773,7 +773,7 @@ function openAdmin(){
 }
  
 
-//Done   
+// Done   
 /* UPLOAD */
 function uploadImage(){
   if (typeof cloudinary === "undefined") {
@@ -815,7 +815,7 @@ function uploadImage(){
 }
    
 /* SAVE */
-//DONE
+// DONE
    
 function loadCategories(){
   let bar = document.getElementById("categoryBar");
@@ -842,7 +842,7 @@ function loadCategories(){
 }
 
    
-//DONE   
+// DONE   
 /* DELETE */
 function loadDelete(){
 let cat = delCat.value;
@@ -866,7 +866,7 @@ html += `
 if(delList) delList.innerHTML = html;
 }
 
-//DONE
+// DONE
 async function delProduct(i){
   let cat = delCat.value;
 
@@ -879,7 +879,7 @@ async function delProduct(i){
 }
 
 
-//DONE  
+// DONE  
 async function deleteTestimonial(i){
   let item = testimonials[i];
 
@@ -895,7 +895,7 @@ async function deleteTestimonial(i){
   loadTestimonialAdmin();
 }
 
- //DONE  
+ // DONE  
 function del(i){
 let cat = delCat.value;
 
@@ -915,7 +915,7 @@ let testimonials = [];
 let tIndex = 0;
 let tAuto = null;
 
-//DONE   
+// DONE   
 /* LOAD */
 async function loadTestimonialsFromFirebase(){
   testimonials = [];
@@ -936,7 +936,7 @@ async function loadTestimonialsFromFirebase(){
 }
 
 /* SCROLL */
-//DONE
+// DONE
 function scrollTestimonial(i) {
 const box = document.getElementById("testimonialCarousel");
 const dots = document.querySelectorAll("#testimonialDots .dot");
@@ -963,7 +963,7 @@ if (dots[i]) dots[i].classList.add("active");
 tIndex = i;
 }
    
-//DONE
+// DONE
 /* AUTO SLIDE */
 function startAuto() {
 clearInterval(tAuto);
@@ -984,7 +984,7 @@ tAuto = setInterval(() => {
 }, 4000);
 }
    
-//DONE. 
+// DONE. 
 function restoreActiveView(){
   let saved = localStorage.getItem("activeView") || "about";
 
@@ -1010,7 +1010,7 @@ function restoreActiveView(){
 }
 
    
-//Done
+// Done
    
 function initApp(){
 loadCategoriesFromFirebase();
@@ -1022,7 +1022,7 @@ setTimeout(()=>{
   restoreActiveView();
 }, 200);
 
- //DONE  
+ // DONE  
 async function loadProductsFromFirebase(){
   products = [];
 
