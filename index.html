@@ -832,11 +832,15 @@ function uploadImage(){
 function loadCategories(){
   let bar = document.getElementById("categoryBar");
 
-  let html = categories.map(c => `
-    <div class="category-btn" onclick="showView('${c}', this)">
-      ${c.toUpperCase()}
-    </div>
-  `).join("");
+  let html = "";
+
+  categories.forEach(c => {
+    html += `
+      <div class="category-btn" onclick="showView('${c}', this)">
+        ${c.toUpperCase()}
+      </div>
+    `;
+  });
 
   bar.innerHTML = html;
 }
