@@ -827,7 +827,19 @@ function uploadImage(){
 }
    
 /* SAVE */
+//DONE
+   
+function loadCategories(){
+  let bar = document.getElementById("categoryBar");
 
+  let html = categories.map(c => `
+    <div class="category-btn" onclick="showView('${c}', this)">
+      ${c.toUpperCase()}
+    </div>
+  `).join("");
+
+  bar.innerHTML = html;
+}
 
 //DONE   
 /* DELETE */
