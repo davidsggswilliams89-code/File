@@ -9,7 +9,7 @@ body{
   margin:0;        
   font-family:Arial;        
   background:#f5f5f5;        
-  padding-top:80px;        
+  padding-top:80px;          
 }      /* HEADER */  
 .top-marquee{  
 background:#111;  
@@ -618,120 +618,155 @@ document.querySelectorAll(".view")?.forEach(v=>{
   v.classList.remove("active-view");
 });
 
-   
+ //DONE
 function showView(type, el){
-// remove active class from all buttons
+
+// remove active class
 document.querySelectorAll(".category-btn").forEach(b=>{
-b.classList.remove("active");
+  b.classList.remove("active");
 });
 
-// set active button
-el.classList.add("active");
+// safe button activation
+if(el) el.classList.add("active");
 
-localStorage.setItem("activeView", type);
+// optional (UI only)
+sessionStorage.setItem("activeView", type);
 
-// HIDE ALL VIEWS FIRST
+// hide all views
 document.querySelectorAll(".view").forEach(v=>{
-v.classList.remove("active-view");
+  v.classList.remove("active-view");
 });
 
-// SHOW ABOUT
+// ABOUT VIEW
 if(type === "about"){
-aboutView.classList.add("active-view");
-return;
+  if(aboutView) aboutView.classList.add("active-view");
+  return;
 }
 
-// SHOW PRODUCT CATEGORY
+// GET OR CREATE VIEW
 let view = document.getElementById(type + "View");
 
-// ALWAYS ensure view exists
 if(!view){
-view = document.createElement("div");
-view.id = type + "View";
-view.className = "view";
-document.body.appendChild(view);
+  view = document.createElement("div");
+  view.id = type + "View";
+  view.className = "view";
+  document.body.appendChild(view);
 }
 
+// FILTER PRODUCTS
 let list = products.filter(p => p.category === type);
 let html = "";
 
+// BUILD HTML
 list.forEach((p,i)=>{
+
 let isNew = (Date.now() - p.date) < 86400000;
 
-html += `
+// safe images
+let images = (p.images || []).map(img => `<img src="${img}">`).join('');
 
+html += `
   <div class="card">      
     <div class="img-wrap">      
-      ${isNew ? '<div class="new-badge">NEW</div>' : ''}      <div class="carousel car${type}${i}">      
-    ${p.images.map(img=>`<img src="${img}">`).join('')}      
-  </div>      
-</div>      
-  
-<div class="dots dots${type}${i}"></div>      
-  
-<div class="price">₦ ${p.price}</div>      
-  
-<button class="buy-btn" onclick="buyNow(${i},'${type}')">      
-  <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png">      
-  BUY NOW      
-</button>
+      ${isNew ? '<div class="new-badge">NEW</div>' : ''}      
+      <div class="carousel car${type}${i}">      
+        ${images}      
+      </div>      
+    </div>      
 
-  </div>`;      
-});      view.innerHTML = html;
+    <div class="dots dots${type}${i}"></div>      
+
+    <div class="price">₦ ${p.price}</div>      
+
+    <button class="buy-btn" onclick="buyNow(${i},'${type}')">      
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png">      
+      BUY NOW      
+    </button>
+  </div>`;
+});
+
+view.innerHTML = html;
 view.classList.add("active-view");
 
+// setup carousels
 list.forEach((p,i)=>setupCarousel(type,i));
 }
+
+
+
+// DONE
 /* BUY NOW */
-function buyNow(i,type){
-let list=products.filter(p=>p.category===type);
-let p=list[i];
+function buyNow(i, type){
+  // get product safely
+  const list = products.filter(p => p.category === type);
+  const p = list[i];
+  if (!p) return;
 
-let car=document.querySelector(".car"+type+i);
-let index=Math.round(car.scrollLeft/car.clientWidth);
-let img=p.images[index];
+  // get carousel (may not exist)
+  const car = document.querySelector(".car" + type + i);
 
-let msg=`Hello 👋,
+  // safe index calculation
+  let index = 0;
+  if (car && car.clientWidth > 0) {
+    index = Math.round(car.scrollLeft / car.clientWidth);
+  }
+
+  // safe image selection
+  const images = Array.isArray(p.images) ? p.images : [];
+  const img = images[index] || images[0] || "No image";
+
+  // build message
+  const msg = `Hello 👋,
 
 I want to order this Product:
 
 🧵 Category: ${type.toUpperCase()}
-🛍️ Product: ${p.name}
-💰 Price: ₦${p.price}
+🛍️ Product: ${p.name || "N/A"}
+💰 Price: ₦${p.price || "N/A"}
 
 🖼️ Selected Image:
 ${img}
 
 Is this available? I want to buy.`;
 
-window.open("https://wa.me/2349114738932?text="+encodeURIComponent(msg));
+  // open WhatsApp
+  window.open(
+    "https://wa.me/2349114738932?text=" + encodeURIComponent(msg),
+    "_blank"
+  );
 }
-
+   
+//DONE
 /* CAROUSEL */
 function setupCarousel(type,i){
-let c=document.querySelector(".car"+type+i);
-let box=document.querySelector(".dots"+type+i);
-if(!c)return;
+let c = document.querySelector(".car"+type+i);
+let box = document.querySelector(".dots"+type+i);
 
-let imgs=c.querySelectorAll("img");
-box.innerHTML="";
+if(!c || !box) return; // ✅ prevent crash
 
+let imgs = c.querySelectorAll("img");
+box.innerHTML = "";
+
+// create dots
 imgs.forEach((_,x)=>{
-let d=document.createElement("span");
-d.className="dot";
-if(x===0)d.classList.add("active");
-box.appendChild(d);
+  let d = document.createElement("span");
+  d.className = "dot";
+  if(x===0) d.classList.add("active");
+  box.appendChild(d);
 });
 
-let dots=box.querySelectorAll(".dot");
+let dots = box.querySelectorAll(".dot");
 
-c.addEventListener("scroll",()=>{
-let index=Math.round(c.scrollLeft/c.clientWidth);
-dots.forEach(d=>d.classList.remove("active"));
-if(dots[index])dots[index].classList.add("active");
-});
+// ✅ prevent multiple listeners
+c.onscroll = () => {
+  if(c.clientWidth === 0) return;
+
+  let index = Math.round(c.scrollLeft / c.clientWidth);
+
+  dots.forEach(d=>d.classList.remove("active"));
+  if(dots[index]) dots[index].classList.add("active");
+};
 }
-
 /* ADMIN */
 function openAdmin(){
   if(prompt("Password")==="1234"){
@@ -745,12 +780,20 @@ function closeAdmin(){
 adminPanel.style.display="none";
 }
 
+
+   
 /* UPLOAD */
 function uploadImage(){
+
   if (typeof cloudinary === "undefined") {
     alert("Upload tool not loaded. Refresh page.");
     return;
   }
+
+  // ✅ clear previous images (optional but recommended)
+  uploadedImages = [];
+
+  alert("Opening upload...");
 
   cloudinary.openUploadWidget({
     cloudName: "db92r6j9z",
@@ -767,13 +810,20 @@ function uploadImage(){
 
     if (result && result.event === "success") {
       uploadedImages.push(result.info.secure_url);
-
-      // ✅ SHOW FEEDBACK
-      alert("Image uploaded successfully!");
       console.log("Uploaded:", result.info.secure_url);
     }
+
+    // ✅ show ONE message when upload closes
+    if (result && result.event === "close") {
+      if(uploadedImages.length > 0){
+        alert(uploadedImages.length + " image(s) uploaded successfully!");
+      }
+    }
+
   });
 }
+
+   
 /* SAVE */
 
 /* DELETE */
