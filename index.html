@@ -823,27 +823,30 @@ function uploadImage(){
 // DONE
    
 function loadCategories(){
+
   let bar = document.getElementById("categoryBar");
 
   if(!bar) return;
 
-  let html = "";
+  // ABOUT BUTTON FIRST
+  let html = `
+    <div class="category-btn active"
+         onclick="showView('about', this)">
+      HOME
+    </div>
+  `;
 
+  // PRODUCT CATEGORIES
   categories.forEach(c => {
     html += `
-      <div class="category-btn" onclick="showView('${c}', this)">
+      <div class="category-btn"
+           onclick="showView('${c}', this)">
         ${c.toUpperCase()}
       </div>
     `;
   });
 
   bar.innerHTML = html;
-
-  // auto activate first category if nothing is selected
-  if(categories.length > 0){
-    const firstBtn = bar.querySelector(".category-btn");
-    if(firstBtn) firstBtn.classList.add("active");
-  }
 }
 
    
