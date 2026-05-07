@@ -588,6 +588,7 @@ async function loadCategoriesFromFirebase(){
 
  //Done  
 function fillCats(){
+
 let html = categories
 .map(c => `<option value="${c}">${c.toUpperCase()}</option>`)
 .join("");
@@ -595,6 +596,10 @@ let html = categories
 delCat.innerHTML = html;
 
 document.getElementById("catDelete").innerHTML = html;
+
+// ADD THIS
+aCategory.innerHTML = html;
+
 }
    
 // Done   
