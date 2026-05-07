@@ -1053,15 +1053,29 @@ function initApp(){
 
  // DONE  
 async function loadProductsFromFirebase(){
+
   products = [];
 
-  const querySnapshot = await fb.getDocs(fb.collection(db, "products"));
+  // CLEAR OLD CATEGORY VIEWS
+  document.querySelectorAll(".view").forEach(v=>{
 
-  querySnapshot.forEach((docItem) => {
+    if(v.id !== "aboutView"){
+      v.innerHTML = "";
+    }
+
+  });
+
+  const querySnapshot = await fb.getDocs(
+    fb.collection(db, "products")
+  );
+
+  querySnapshot.forEach((docItem)=>{
+
     products.push({
       id: docItem.id,
       ...docItem.data()
     });
+
   });
 
   restoreActiveView();
