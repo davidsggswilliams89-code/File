@@ -1080,15 +1080,6 @@ async function loadProductsFromFirebase(){
   restoreActiveView();
 }
    
-document.addEventListener("DOMContentLoaded", ()=>{    
-  loadCategoriesFromFirebase();   // ✅ new
-  loadProductsFromFirebase();     // ✅ new
-  loadTestimonialsFromFirebase(); // ✅ new
-
-  setTimeout(() => {
-    restoreActiveView();
-  }, 100);
-});
 
 function loadTestimonialAdmin(){
 let box = document.getElementById("testimonialList");
