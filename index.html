@@ -694,10 +694,14 @@ let images = (p.images || []).map(img => `<img src="${img}">`).join("");
 html += `
       <div class="card">
         <div class="img-wrap">
-          <div class="carousel car${type}${i}">
-            ${images}
-          </div>
-        </div>
+
+  <div class="new-badge">${timeText}</div>
+
+  <div class="carousel car${type}${i}">
+    ${images}
+  </div>
+
+</div>
 
         <div class="dots dots${type}${i}"></div>
 
