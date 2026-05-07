@@ -421,7 +421,7 @@ border:1px solid #ccc;
 <hr> 
     
  <!-- WELCOME -->   
- <h2 style="text-align:center;">Welcome to BOB TEXTILE 👋</h2>        
+ <h2 style="text-align:center;">Welcome to HALAL TEXTILE 👋</h2>        
 <p style="text-align:center;">        
   Your trusted destination for premium fabrics, modern fashion styles, and quality textile products across Nigeria.        
 </p>      <hr>     
@@ -670,9 +670,28 @@ function showView(type, el){
   let html = "";
 
   list.forEach((p,i)=>{
-    let images = (p.images || []).map(img => `<img src="${img}">`).join("");
 
-    html += `
+let diff = Date.now() - p.date;
+
+let timeText = "";
+
+let mins = Math.floor(diff / 60000);
+let hours = Math.floor(diff / 3600000);
+let days = Math.floor(diff / 86400000);
+
+if(mins < 60){
+  timeText = mins + " min ago";
+}
+else if(hours < 24){
+  timeText = hours + " hr ago";
+}
+else{
+  timeText = days + " day ago";
+}
+
+let images = (p.images || []).map(img => `<img src="${img}">`).join("");
+
+html += `
       <div class="card">
         <div class="img-wrap">
           <div class="carousel car${type}${i}">
