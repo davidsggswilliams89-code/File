@@ -994,27 +994,46 @@ tAuto = setInterval(() => {
    
 // DONE. 
 function restoreActiveView(){
+
   let saved = localStorage.getItem("activeView") || "about";
 
+  // REMOVE ACTIVE FROM ALL BUTTONS
+  document.querySelectorAll(".category-btn").forEach(btn=>{
+    btn.classList.remove("active");
+  });
+
+  // HIDE ALL VIEWS
+  document.querySelectorAll(".view").forEach(v=>{
+    v.classList.remove("active-view");
+  });
+
+  // HOME / ABOUT DEFAULT
   if(saved === "about"){
+
     aboutView.classList.add("active-view");
+
+    let homeBtn = document.querySelector(".category-btn");
+
+    if(homeBtn){
+      homeBtn.classList.add("active");
+    }
+
     return;
   }
 
+  // OTHER CATEGORIES
   let buttons = document.querySelectorAll(".category-btn");
 
-  let found = false;
-
   buttons.forEach(btn=>{
+
     if(btn.innerText.trim().toLowerCase() === saved){
+
       showView(saved, btn);
-      found = true;
+
     }
+
   });
 
-  if(!found){
-    aboutView.classList.add("active-view");
-  }
 }
 
    
