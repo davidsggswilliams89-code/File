@@ -1038,18 +1038,7 @@ function restoreActiveView(){
 
    
 // Done
-   
-function initApp(){
-  loadCategoriesFromFirebase();
-  loadProductsFromFirebase();
-  loadTestimonialsFromFirebase();
-
-  setTimeout(()=>{
-    loadCategories();
-    restoreActiveView();
-  }, 200);
-} // ✅ CLOSE FUNCTION PROPERLY
-
+  
 
  // DONE  
 async function loadProductsFromFirebase(){
