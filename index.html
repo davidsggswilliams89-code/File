@@ -1113,30 +1113,19 @@ function restoreActiveView(){
 
  // DONE  
 async function loadProductsFromFirebase(){
-
   products = [];
 
-  // CLEAR OLD CATEGORY VIEWS
-  document.querySelectorAll(".view").forEach(v=>{
+  const querySnapshot = await fb.getDocs(fb.collection(db, "products"));
 
-    if(v.id !== "aboutView"){
-      v.innerHTML = "";
-    }
-
-  });
-
-  const querySnapshot = await fb.getDocs(
-    fb.collection(db, "products")
-  );
-
-  querySnapshot.forEach((docItem)=>{
-
+  querySnapshot.forEach((docItem) => {
     products.push({
       id: docItem.id,
       ...docItem.data()
     });
-
   });
+
+  // NEWEST FIRST
+  products.sort((a,b)=> b.date - a.date);
 
   restoreActiveView();
 }
