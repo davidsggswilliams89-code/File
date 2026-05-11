@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+to<!DOCTYPE html>
 <html>     
 <head>       
   <title>HALAL TEXTILE</title>        
@@ -516,14 +516,21 @@ border:1px solid #ccc;
   <button class="btn" onclick="uploadTestimonials()">Upload Testimonials</button>        <hr>      <h3>Manage Testimonials</h3>      
   <div id="testimonialList"></div>      <hr>      <h3>Add Category</h3>      
   <input id="newCat" placeholder="New category name">      
-  <button class="btn" onclick="addCategory()">Add Category</button>      <hr>    <button class="btn" onclick="closeAdmin()" style="background:red;">Close</button>  </div>     
+  <button class="btn" onclick="addCategory()">Add Category</button>      <hr>    
+    <button class="btn" onclick="logoutAdmin()" style="background:red;">
+Logout
+</button>  </div>     
 
 
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  
 // YOUR FIREBASE CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyCmQ9JMrOrN0uRPfkoVC3MHG5T_DhTq10Q",
@@ -536,6 +543,11 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
+
+window.auth = auth;
+window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+window.signOut = signOut;
 
 // MAKE GLOBAL
 window.db = db;
@@ -802,24 +814,45 @@ c.onscroll = () => {
 
 // DONE
 /* ADMIN */
-function openAdmin(){
+   
+async function openAdmin(){
 
-  const pass = prompt("Enter admin password:");
+  let email = prompt("Enter admin email");
+  if(!email) return;
 
-  if(!pass) return;
+  let password = prompt("Enter admin password");
+  if(!password) return;
 
-  if(pass === "1234"){   // you can replace later with Firebase auth
-    
-    if(adminPanel) adminPanel.style.display = "flex";
+  try{
 
-    if(typeof fillCats === "function") fillCats();
-    if(typeof loadTestimonialAdmin === "function") loadTestimonialAdmin();
+    await signInWithEmailAndPassword(auth, email, password);
 
-  } else {
-    alert("Wrong password");
+    adminPanel.style.display = "flex";
+
+    fillCats();
+
+    loadTestimonialAdmin();
+
+    alert("Admin login successful ✅");
+
+  }catch(err){
+
+    alert("Access denied ❌");
+
+    console.log(err);
+
   }
 }
- 
+
+async function logoutAdmin(){
+
+  await signOut(auth);
+
+  adminPanel.style.display = "none";
+
+  alert("Logged out");
+
+}   
 
 // Done   
 /* UPLOAD */
