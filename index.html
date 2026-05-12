@@ -525,7 +525,6 @@ Logout
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
 import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 import {
@@ -533,8 +532,10 @@ import {
   signInWithEmailAndPassword,
   signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
   
-// YOUR FIREBASE CONFIG
+// YOUR FIREBASE CONFIG TO BE CHANGING FOR EVERY WEBSITE
 const firebaseConfig = {
   apiKey: "AIzaSyCmQ9JMrOrN0uRPfkoVC3MHG5T_DhTq10Q",
   authDomain: "halaltxtule.firebaseapp.com",
