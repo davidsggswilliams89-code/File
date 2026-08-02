@@ -690,3 +690,163 @@ text-align:center;
 
 }
 
+/* =========================================================
+SECTION 06
+HOW IT WORKS CSS
+========================================================= */
+
+.how-it-works{
+
+padding:100px 0;
+
+background:#ffffff;
+
+}
+
+.title-center{
+
+text-align:center;
+
+margin-bottom:70px;
+
+}
+
+.title-center h2{
+
+font-size:44px;
+
+font-weight:800;
+
+color:#1f2340;
+
+margin-bottom:15px;
+
+}
+
+.title-center p{
+
+max-width:700px;
+
+margin:auto;
+
+font-size:18px;
+
+line-height:1.8;
+
+color:#666;
+
+}
+
+.steps-grid{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+gap:30px;
+
+}
+
+.step-card{
+
+background:#f8f9fd;
+
+padding:40px 30px;
+
+border-radius:24px;
+
+text-align:center;
+
+transition:.35s;
+
+border:1px solid #eceef5;
+
+}
+
+.step-card:hover{
+
+transform:translateY(-10px);
+
+box-shadow:0 20px 40px rgba(125,60,255,.15);
+
+}
+
+.step-icon{
+
+width:90px;
+
+height:90px;
+
+margin:auto;
+
+margin-bottom:25px;
+
+border-radius:50%;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:linear-gradient(135deg,#7d3cff,#a14cff);
+
+color:#fff;
+
+font-size:34px;
+
+}
+
+.step-card h3{
+
+font-size:24px;
+
+font-weight:700;
+
+margin-bottom:15px;
+
+color:#1f2340;
+
+}
+
+.step-card p{
+
+font-size:16px;
+
+line-height:1.8;
+
+color:#666;
+
+}
+
+@media(max-width:768px){
+
+.title-center h2{
+
+font-size:34px;
+
+}
+
+.title-center p{
+
+font-size:16px;
+
+}
+
+.step-card{
+
+padding:30px 20px;
+
+}
+
+.step-icon{
+
+width:75px;
+
+height:75px;
+
+font-size:28px;
+
+}
+
+}
