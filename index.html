@@ -4,299 +4,177 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>QUIZCANO</title>
 
-<style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-/* Paste ALL Section CSS CSS CSS CSS CSS CSS CSS CSS CSS CSS  CSS CSS CSS CSS CSS CSS CSS CSS CSS  CSS 01 CSS here */
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-/* =========================================================
-SECTION 01
-QUIZCANO HEADER CSS
-========================================================= */
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
 
-*{
-
-    margin:0;
-
-    padding:0;
-
-    box-sizing:border-box;
-
-}
-
-body{
-
-    background:#0B1120;
-
-    font-family:Arial,Helvetica,sans-serif;
-
-}
-
-/* ===========================
-Top Header
-=========================== */
-
-.top-header{
-
-    width:100%;
-
-    height:110px;
-
-    background:#0B1120;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    padding:15px 18px;
-
-    position:sticky;
-
-    top:0;
-
-    z-index:999;
-
-}
-
-/* ===========================
-Menu Button
-=========================== */
-
-.menu-btn{
-
-    width:72px;
-
-    height:72px;
-
-    border:none;
-
-    border-radius:22px;
-
-    background:#1A2138;
-
-    color:#FFFFFF;
-
-    font-size:38px;
-
-    cursor:pointer;
-
-}
-
-/* ===========================
-Logo Area
-=========================== */
-
-.logo-area{
-
-    flex:1;
-
-    text-align:center;
-
-}
-
-.logo{
-
-    font-size:58px;
-
-    font-weight:900;
-
-    letter-spacing:1px;
-
-    cursor:pointer;
-
-    user-select:none;
-
-}
-
-.logo-white{
-
-    color:#FFFFFF;
-
-}
-
-.logo-orange{
-
-    color:#F59E0B;
-
-}
-
-.logo-tagline{
-
-    margin-top:6px;
-
-    font-size:18px;
-
-    color:#8B93A7;
-
-}
-
-/* ===========================
-Right Section
-=========================== */
-
-.header-right{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:15px;
-
-}
-
-/* ===========================
-Notification
-=========================== */
-
-.notification-btn{
-
-    width:72px;
-
-    height:72px;
-
-    border:none;
-
-    border-radius:22px;
-
-    background:#1A2138;
-
-    font-size:34px;
-
-    position:relative;
-
-    cursor:pointer;
-
-}
-
-.notification-count{
-
-    position:absolute;
-
-    top:-8px;
-
-    right:-6px;
-
-    width:30px;
-
-    height:30px;
-
-    background:#FF3B30;
-
-    color:#FFFFFF;
-
-    border-radius:50%;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    font-size:16px;
-
-    font-weight:bold;
-
-}
-
-/* ===========================
-Profile
-=========================== */
-
-.profile-image{
-
-    width:72px;
-
-    height:72px;
-
-    border-radius:50%;
-
-    border:4px solid #F59E0B;
-
-    object-fit:cover;
-
-}
-
-/* =========================================================
-END OF SECTION 01
-========================================================= */
-</style>
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 </head>
 
 <body>
 
-/* Paste ALL Section HTML HTML HTML HTML HTML HTML HTML HTML HTML HTML HTML HTML HTML HTML HTML HTML here */
+<!-- ========================================================= -->
+<!-- SECTION 01 -->
+<!-- QUIZCANO HEADER -->
+<!-- ========================================================= -->
 
-    
-<!-- =========================================================
-SECTION 01
-QUIZCANO HEADER
-========================================================= -->
+<header class="header">
 
-<header class="top-header">
+<div class="container">
 
-    <!-- Left -->
-    <button class="menu-btn" id="menuBtn">
-        ☰
-    </button>
+<div class="logo">
 
-    <!-- Center Logo -->
-    <div class="logo-area">
+<img src="images/logo.png" alt="Quizcano Logo">
 
-        <h1 id="gameIcon" class="logo">
+<div>
 
-            <span class="logo-white">QUIZ</span><span class="logo-orange">CANO</span>
+<h2>QUIZCANO</h2>
 
-        </h1>
+<p>PLAY QUIZ • WIN AMAZING GIFTS</p>
 
-        <p class="logo-tagline">
+</div>
 
-            Play • Learn • Win
+</div>
 
-        </p>
+<nav class="navbar">
 
-    </div>
+<ul>
 
-    <!-- Right -->
-    <div class="header-right">
+<li><a class="active" href="#">Home</a></li>
 
-        <button class="notification-btn">
+<li><a href="#">Quizzes</a></li>
 
-            🔔
+<li><a href="#">Winners</a></li>
 
-            <span class="notification-count">
+<li><a href="#">How It Works</a></li>
 
-                3
+<li><a href="#">Leaderboard</a></li>
 
-            </span>
+</ul>
 
-        </button>
+</nav>
 
-        <img
-            src="profile.jpg"
-            alt="Profile"
-            class="profile-image">
+<div class="header-right">
 
-    </div>
+<button class="search-btn">
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+</button>
+
+<a href="#" class="login-btn">
+
+Login / Sign Up
+
+</a>
+
+<div class="menu-btn">
+
+<i class="fa-solid fa-bars"></i>
+
+</div>
+
+</div>
+
+</div>
 
 </header>
 
-<!-- =========================================================
-END OF SECTION 01
-========================================================= -->
-...
+<!-- ========================================================= -->
+<!-- HERO -->
+<!-- ========================================================= -->
 
-<script>
+<section class="hero">
 
-/* JavaScript will go here later */
+<div class="container hero-grid">
 
-</script>
+<div class="hero-content">
+
+<h1>
+
+PLAY QUIZ
+
+<span>WIN AMAZING GIFTS!</span>
+
+</h1>
+
+<p>
+
+Test your knowledge, have fun and stand a chance to win incredible prizes you love.
+
+</p>
+
+<div class="stats">
+
+<div class="stat">
+
+<i class="fa-solid fa-gift"></i>
+
+<div>
+
+<h2>50</h2>
+
+<span>Amazing Gifts</span>
+
+</div>
+
+</div>
+
+<div class="stat">
+
+<i class="fa-solid fa-trophy"></i>
+
+<div>
+
+<h2>10,248</h2>
+
+<span>Winners</span>
+
+</div>
+
+</div>
+
+<div class="stat">
+
+<i class="fa-solid fa-users"></i>
+
+<div>
+
+<h2>1M+</h2>
+
+<span>Happy Players</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="hero-image">
+
+<img src="images/hero/prizes.png" alt="Prizes">
+
+</div>
+
+</div>
+
+</section>
+
+<!-- End Section 01 -->
+
+<script src="js/app.js"></script>
 
 </body>
 
