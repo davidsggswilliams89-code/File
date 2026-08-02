@@ -1112,3 +1112,157 @@ flex-wrap:wrap;
 }
 
 }
+/* =========================================================
+SECTION 08
+DARK / LIGHT MODE
+========================================================= */
+
+.theme-btn{
+
+width:48px;
+
+height:48px;
+
+border:none;
+
+border-radius:12px;
+
+cursor:pointer;
+
+background:#21183d;
+
+color:#ffffff;
+
+font-size:18px;
+
+transition:.3s;
+
+}
+
+.theme-btn:hover{
+
+background:#7d3cff;
+
+}
+
+/* Smooth Transition */
+
+body,
+
+header,
+
+section,
+
+footer,
+
+.gift-card,
+
+.step-card,
+
+.trust-card,
+
+input,
+
+select,
+
+button{
+
+transition:.35s;
+
+}
+
+/* ======================
+LIGHT MODE
+====================== */
+
+body.light-mode{
+
+background:#ffffff;
+
+color:#222;
+
+}
+
+body.light-mode .header{
+
+background:#ffffff;
+
+}
+
+body.light-mode .logo h2{
+
+color:#222;
+
+}
+
+body.light-mode .navbar a{
+
+color:#222;
+
+}
+
+body.light-mode .search-btn,
+
+body.light-mode .theme-btn{
+
+background:#eeeeee;
+
+color:#222;
+
+}
+
+body.light-mode .hero{
+
+background:linear-gradient(135deg,#edf2ff,#ffffff);
+
+}
+
+body.light-mode .hero-content h1{
+
+color:#1d2340;
+
+}
+
+body.light-mode .hero-content p{
+
+color:#555;
+
+}
+
+body.light-mode .stat h2{
+
+color:#1d2340;
+
+}
+
+body.light-mode .stat span{
+
+color:#555;
+
+}
+
+body.light-mode .footer{
+
+background:#f7f7f7;
+
+color:#222;
+
+}
+
+body.light-mode .footer a{
+
+color:#444;
+
+}
+
+body.light-mode .footer-about{
+
+color:#666;
+
+}
+
+body.light-mode .footer-bottom{
+
+border-top:1px solid #dddddd;
+
+}
