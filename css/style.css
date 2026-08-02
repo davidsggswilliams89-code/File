@@ -1266,3 +1266,339 @@ body.light-mode .footer-bottom{
 border-top:1px solid #dddddd;
 
 }
+/* =========================================================
+SECTION 09
+ANIMATIONS
+========================================================= */
+
+/* Smooth Scrolling */
+
+html{
+
+scroll-behavior:smooth;
+
+}
+
+/* Global Transition */
+
+*{
+
+transition:all .3s ease;
+
+}
+
+/* ==========================
+Fade Animation
+========================== */
+
+.fade-up{
+
+opacity:0;
+
+transform:translateY(50px);
+
+transition:all .8s ease;
+
+}
+
+.fade-up.show{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+/* ==========================
+Slide Left
+========================== */
+
+.slide-left{
+
+opacity:0;
+
+transform:translateX(-60px);
+
+transition:all .8s ease;
+
+}
+
+.slide-left.show{
+
+opacity:1;
+
+transform:translateX(0);
+
+}
+
+/* ==========================
+Slide Right
+========================== */
+
+.slide-right{
+
+opacity:0;
+
+transform:translateX(60px);
+
+transition:all .8s ease;
+
+}
+
+.slide-right.show{
+
+opacity:1;
+
+transform:translateX(0);
+
+}
+
+/* ==========================
+Floating Animation
+========================== */
+
+.float{
+
+animation:floating 4s ease-in-out infinite;
+
+}
+
+@keyframes floating{
+
+0%{
+
+transform:translateY(0px);
+
+}
+
+50%{
+
+transform:translateY(-15px);
+
+}
+
+100%{
+
+transform:translateY(0px);
+
+}
+
+}
+
+/* ==========================
+Pulse
+========================== */
+
+.pulse{
+
+animation:pulse 2s infinite;
+
+}
+
+@keyframes pulse{
+
+0%{
+
+transform:scale(1);
+
+}
+
+50%{
+
+transform:scale(1.05);
+
+}
+
+100%{
+
+transform:scale(1);
+
+}
+
+}
+
+/* ==========================
+Hero Image
+========================== */
+
+.hero-image img{
+
+animation:heroFloat 5s ease-in-out infinite;
+
+}
+
+@keyframes heroFloat{
+
+0%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(-20px);
+
+}
+
+100%{
+
+transform:translateY(0);
+
+}
+
+}
+
+/* ==========================
+Gift Cards
+========================== */
+
+.gift-card:hover{
+
+transform:translateY(-12px) scale(1.03);
+
+box-shadow:0 25px 45px rgba(125,60,255,.20);
+
+}
+
+/* ==========================
+Buttons
+========================== */
+
+.play-btn,
+
+.login-btn,
+
+.view-btn{
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.play-btn:hover,
+
+.login-btn:hover,
+
+.view-btn:hover{
+
+transform:translateY(-4px);
+
+}
+
+/* ==========================
+Icons
+========================== */
+
+.trust-icon,
+
+.step-icon{
+
+transition:.4s;
+
+}
+
+.trust-card:hover .trust-icon,
+
+.step-card:hover .step-icon{
+
+transform:rotate(12deg) scale(1.15);
+
+}
+
+/* ==========================
+Social Icons
+========================== */
+
+.footer-social a:hover{
+
+transform:translateY(-6px) rotate(360deg);
+
+}
+
+/* ==========================
+Navigation
+========================== */
+
+.navbar a{
+
+position:relative;
+
+}
+
+.navbar a::after{
+
+content:"";
+
+position:absolute;
+
+left:0;
+
+bottom:-8px;
+
+width:0;
+
+height:2px;
+
+background:#ffbf00;
+
+transition:.3s;
+
+}
+
+.navbar a:hover::after{
+
+width:100%;
+
+}
+
+/* ==========================
+Images
+========================== */
+
+img{
+
+transition:.4s;
+
+}
+
+.gift-card:hover img{
+
+transform:scale(1.08);
+
+}
+
+/* ==========================
+Section Title
+========================== */
+
+.section-header h2,
+
+.title-center h2,
+
+.trust-heading h2{
+
+animation:fadeTitle 1.2s ease;
+
+}
+
+@keyframes fadeTitle{
+
+from{
+
+opacity:0;
+
+transform:translateY(25px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
