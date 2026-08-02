@@ -1,0 +1,290 @@
+/* =========================================================
+SECTION 03
+RESPONSIVE CSS
+========================================================= */
+
+/* ==========================
+Large Desktop
+========================== */
+
+@media (max-width:1400px){
+
+.hero-content h1{
+
+font-size:62px;
+
+}
+
+.hero-image img{
+
+max-width:620px;
+
+}
+
+}
+
+
+/* ==========================
+Laptop
+========================== */
+
+@media (max-width:1200px){
+
+.container{
+
+width:94%;
+
+}
+
+.hero-grid{
+
+gap:40px;
+
+}
+
+.hero-content h1{
+
+font-size:56px;
+
+}
+
+.stats{
+
+gap:25px;
+
+}
+
+.navbar ul{
+
+gap:20px;
+
+}
+
+}
+
+
+/* ==========================
+Tablet
+========================== */
+
+@media (max-width:992px){
+
+.hero{
+
+padding-top:140px;
+
+}
+
+.hero-grid{
+
+grid-template-columns:1fr;
+
+text-align:center;
+
+}
+
+.hero-content{
+
+order:2;
+
+}
+
+.hero-image{
+
+order:1;
+
+}
+
+.hero-content p{
+
+margin:auto auto 40px;
+
+}
+
+.stats{
+
+justify-content:center;
+
+}
+
+.hero-image img{
+
+max-width:520px;
+
+}
+
+.navbar{
+
+display:none;
+
+}
+
+.menu-btn{
+
+display:block;
+
+}
+
+.login-btn{
+
+display:none;
+
+}
+
+}
+
+
+/* ==========================
+Mobile
+========================== */
+
+@media (max-width:768px){
+
+.header .container{
+
+height:74px;
+
+}
+
+.logo img{
+
+width:45px;
+
+}
+
+.logo h2{
+
+font-size:26px;
+
+}
+
+.logo p{
+
+font-size:10px;
+
+}
+
+.hero{
+
+padding-top:120px;
+
+padding-bottom:60px;
+
+}
+
+.hero-content h1{
+
+font-size:42px;
+
+}
+
+.hero-content p{
+
+font-size:17px;
+
+}
+
+.stats{
+
+flex-direction:column;
+
+align-items:center;
+
+gap:18px;
+
+}
+
+.stat{
+
+width:100%;
+
+justify-content:center;
+
+}
+
+.hero-image img{
+
+max-width:100%;
+
+}
+
+}
+
+
+/* ==========================
+Small Mobile
+========================== */
+
+@media (max-width:480px){
+
+.container{
+
+width:92%;
+
+}
+
+.hero-content h1{
+
+font-size:34px;
+
+line-height:1.15;
+
+}
+
+.hero-content p{
+
+font-size:15px;
+
+}
+
+.logo h2{
+
+font-size:22px;
+
+}
+
+.logo p{
+
+display:none;
+
+}
+
+.search-btn{
+
+width:42px;
+
+height:42px;
+
+font-size:16px;
+
+}
+
+.hero-image img{
+
+max-width:100%;
+
+}
+
+.stat i{
+
+width:52px;
+
+height:52px;
+
+font-size:22px;
+
+}
+
+.stat h2{
+
+font-size:24px;
+
+}
+
+.stat span{
+
+font-size:13px;
+
+}
+
+}
